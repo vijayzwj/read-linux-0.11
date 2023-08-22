@@ -12,7 +12,7 @@
 .globl _page_fault
 
 _page_fault:
-	// 交换两个寄存器的值，esp指向的位置保存了错误码
+	// 交换两个寄存器的值，esp指向的位置保存了错误码,从内核态切换，保护现场
 	xchgl %eax,(%esp)
 	// 压栈寄存器
 	pushl %ecx
@@ -27,7 +27,7 @@ _page_fault:
 	mov %dx,%fs
 	// 如果是缺页异常，cr2保存了引起缺页的线性地址
 	movl %cr2,%edx
-	// 线性地址（有的话）和错误码入参
+	// 线性地址（有的话）和错误码，作为_do_no_page的入参
 	pushl %edx
 	pushl %eax
 	// 1和eax与，结果放到ZF中
