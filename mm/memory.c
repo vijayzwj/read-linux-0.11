@@ -251,7 +251,8 @@ int copy_page_tables(unsigned long from,unsigned long to,long size)
  * out of memory (either when trying to access page-table or
  * page.)
  */
-// page是物理地址，address是线性地址。建立物理地址和线性地址的关联，即给页表和页目录项赋值
+// page是物理地址，address是线性地址(线性地址就是虚拟连续地址)。
+//建立物理地址和线性地址的关联，即给页表和页目录项赋值
 unsigned long put_page(unsigned long page,unsigned long address)
 {
 	unsigned long tmp, *page_table;
@@ -478,7 +479,7 @@ void do_no_page(unsigned long error_code,unsigned long address)
 	unsigned long tmp;
 	unsigned long page;
 	int block,i;
-	// 取得线性地址对应页的页首地址,与0xfffff000即减去页偏移 
+	// 取得虚拟线性地址对应页的页首地址,与0xfffff000即减去页偏移 
 	address &= 0xfffff000;
 	// 算出离代码段首地址的偏移
 	tmp = address - current->start_code;
@@ -523,7 +524,7 @@ void do_no_page(unsigned long error_code,unsigned long address)
 	// 建立线性地址和物理地址的映射
 	if (put_page(page,address))
 		return;
-	// 失败则是否刚才申请的物理页
+	// 失败则释放刚才申请的物理页
 	free_page(page);
 	oom();
 }
