@@ -212,7 +212,7 @@ void init(void)
 		while (pid != wait(&i))
 			/* nothing */;
 	while (1) {
-		if ((pid=fork())<0) {
+		if ((pid=fork())<0) {//失败
 			printf("Fork failed in init\r\n");
 			continue;
 		}
