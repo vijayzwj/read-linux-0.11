@@ -210,10 +210,10 @@ setup_paging:
 	xorl %eax,%eax
 	xorl %edi,%edi			/* pg_dir is at 0x000 */
 	cld;rep;stosl
-	movl $pg0+7,_pg_dir		/* set present bit/user r/w */
-	movl $pg1+7,_pg_dir+4		/*  --------- " " --------- */
-	movl $pg2+7,_pg_dir+8		/*  --------- " " --------- */
-	movl $pg3+7,_pg_dir+12		/*  --------- " " --------- */
+	movl $pg0+7,_pg_dir		/* set present bit/user r/w  填充页目录项*/
+	movl $pg1+7,_pg_dir+4		/*  --------- " " ---------  填充页目录项*/
+	movl $pg2+7,_pg_dir+8		/*  --------- " " ---------  填充页目录项*/
+	movl $pg3+7,_pg_dir+12		/*  --------- " " ---------   填充页目录项*/
 	movl $pg3+4092,%edi
 	movl $0xfff007,%eax		/*  16Mb - 4096 + 7 (r/w user,p) */
 	std
